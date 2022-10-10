@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Product {
     String productId;
     String productName;
@@ -26,7 +28,11 @@ public class Product {
         return this.numSales;
     }
 
-    public void sold() {
-        this.numSales++;
+    public void sold(int quantity) {
+        this.numSales = numSales + quantity;
+    }
+
+    public boolean isNull(){
+        return(Objects.equals(productId, ""));
     }
 }

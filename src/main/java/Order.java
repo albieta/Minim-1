@@ -8,6 +8,15 @@ public class Order {
         this.userId = userId;
         this.elements = new ArrayList<LP>();
     }
+
+    public List<LP> getElements(){
+        return this.elements;
+    }
+
+    public String getUserId(){
+        return this.userId;
+    }
+
     public void addLP(int i, String b001) {
         elements.add(new LP(i, b001));
     }

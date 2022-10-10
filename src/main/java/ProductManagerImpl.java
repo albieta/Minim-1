@@ -1,27 +1,30 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ProductManagerImpl implements ProductManager{
     List<User> users;
     List<Product> products;
+    List<Order> ordersProcessed;
     Order[] orders;
     int pointer;
     int maximum = 100;
 
     public ProductManagerImpl(){
-        this.users = new ArrayList<User>();
-        this.products = new ArrayList<Product>();
+        this.users = new ArrayList<>();
+        this.products = new ArrayList<>();
+        this.ordersProcessed = new ArrayList<>();
         this.orders = new Order[maximum];
         this.pointer = 0;
     }
     @Override
     public List<Product> productsByPrice() {
-        return null;
+        this.products.sort(new ProductComparatorByPrice());
+        return this.products;
     }
 
     @Override
     public List<Product> productsBySales() {
-        return null;
+        this.products.sort(new ProductComparatorBySales());
+        return this.products;
     }
 
     @Override
@@ -48,7 +51,13 @@ public class ProductManagerImpl implements ProductManager{
 
     @Override
     public List<Order> ordersByUser(String userId) {
-        return null;
+        List<Order> orders = new ArrayList<>();
+        for (Order order : this.ordersProcessed) {
+            if(Objects.equals(order.getUserId(), userId)){
+                orders.add(order);
+            }
+        }
+        return orders;
     }
 
     @Override
@@ -58,12 +67,21 @@ public class ProductManagerImpl implements ProductManager{
 
     @Override
     public void addProduct(String productId, String name, double price) {
+        if (!this.getProduct(productId).isNull()){
+            return;
+        }
         this.products.add(new Product(productId, name, price, 0));
     }
 
     @Override
     public Product getProduct(String productId) {
-        return null;
+        Product productDesired = new Product("","",0,0);
+        for(Product product : this.products){
+            if(Objects.equals(product.getProductId(), productId)){
+                productDesired = product;
+            }
+        }
+        return productDesired;
     }
 
     @Override
@@ -94,7 +112,14 @@ public class ProductManagerImpl implements ProductManager{
     }
 
     private void executeProcess(Order orderToProcess) {
-
+        List<LP> elements = orderToProcess.getElements();
+        for(LP element : elements) {
+            Product product = this.getProduct(element.getProduct());
+            int index = products.indexOf(product);
+            product.sold(element.getQuantity());
+            products.set(index, product);
+        }
+        this.ordersProcessed.add(orderToProcess);
     }
 
     private boolean isFull() {

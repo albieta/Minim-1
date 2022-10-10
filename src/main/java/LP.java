@@ -7,6 +7,10 @@ public class LP {
         this.product = product;
     }
 
+    public String getProduct(){
+        return this.product;
+    }
+
     public int getQuantity(){
         return this.quantity;
     }
