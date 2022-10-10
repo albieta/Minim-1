@@ -1,5 +1,3 @@
-import edu.upc.eetac.dsa.models.Order;
-import edu.upc.eetac.dsa.models.Product;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
