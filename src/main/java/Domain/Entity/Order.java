@@ -1,3 +1,7 @@
+package Domain.Entity;
+
+import Domain.Entity.VO.LP;
+
 import java.util.*;
 
 public class Order {

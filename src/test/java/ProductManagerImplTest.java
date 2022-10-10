@@ -1,3 +1,9 @@
+import Domain.Entity.Order;
+import Domain.Entity.Product;
+import Domain.Exceptions.MaximumOrdersExceededException;
+import Domain.Exceptions.NoOrdersToProcessException;
+import Domain.Repository.ProductManager;
+import Infrastructure.ProductManagerImpl;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

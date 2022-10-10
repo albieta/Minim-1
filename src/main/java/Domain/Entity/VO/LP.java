@@ -1,3 +1,5 @@
+package Domain.Entity.VO;
+
 public class LP {
     int quantity;
     String product;

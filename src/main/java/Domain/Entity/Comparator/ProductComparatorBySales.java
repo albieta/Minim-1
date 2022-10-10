@@ -1,3 +1,7 @@
+package Domain.Entity.Comparator;
+
+import Domain.Entity.Product;
+
 import java.util.Comparator;
 
 public class ProductComparatorBySales implements Comparator<Product> {

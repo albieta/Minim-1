@@ -1,3 +1,10 @@
+package Domain.Repository;
+
+import Domain.Entity.Order;
+import Domain.Entity.Product;
+import Domain.Exceptions.MaximumOrdersExceededException;
+import Domain.Exceptions.NoOrdersToProcessException;
+
 import java.util.List;
 
 public interface ProductManager {

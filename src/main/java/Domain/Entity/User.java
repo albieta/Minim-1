@@ -1,3 +1,5 @@
+package Domain.Entity;
+
 public class User {
     String userId;
     String userName;

@@ -1,6 +1,18 @@
+package Infrastructure;
+
+import Domain.Entity.Order;
+import Domain.Entity.Product;
+import Domain.Entity.User;
+import Domain.Exceptions.MaximumOrdersExceededException;
+import Domain.Exceptions.NoOrdersToProcessException;
+import Domain.Entity.VO.LP;
+import Domain.Entity.Comparator.ProductComparatorByPrice;
+import Domain.Entity.Comparator.ProductComparatorBySales;
+import Domain.Repository.ProductManager;
+
 import java.util.*;
 
-public class ProductManagerImpl implements ProductManager{
+public class ProductManagerImpl implements ProductManager {
     List<User> users;
     List<Product> products;
     List<Order> ordersProcessed;
