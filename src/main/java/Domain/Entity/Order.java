@@ -6,14 +6,14 @@ import java.util.*;
 
 public class Order {
     String userId;
-    List<LP> elements;
+    LinkedList<LP> elements;
 
     public Order(String userId){
         this.userId = userId;
-        this.elements = new ArrayList<LP>();
+        this.elements = new LinkedList<>();
     }
 
-    public List<LP> getElements(){
+    public LinkedList<LP> getElements(){
         return this.elements;
     }
 

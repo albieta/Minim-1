@@ -15,13 +15,13 @@ import java.util.*;
 public class ProductManagerImpl implements ProductManager {
     List<User> users;
     List<Product> products;
-    List<Order> ordersProcessed;
+    Map<String, List<Order>> usersOrders;
     Queue<Order> orders;
 
     public ProductManagerImpl(){
         this.users = new ArrayList<>();
         this.products = new ArrayList<>();
-        this.ordersProcessed = new ArrayList<>();
+        this.usersOrders = new HashMap<>();
         this.orders = new ArrayQueueImplementation<>(100);
     }
     @Override
@@ -50,17 +50,12 @@ public class ProductManagerImpl implements ProductManager {
 
     @Override
     public List<Order> ordersByUser(String userId) {
-        List<Order> orders = new ArrayList<>();
-        for (Order order : this.ordersProcessed) {
-            if(Objects.equals(order.getUserId(), userId)){
-                orders.add(order);
-            }
-        }
-        return orders;
+        return this.usersOrders.get(userId);
     }
 
     @Override
     public void addUser(String s, String name, String surname) {
+        this.usersOrders.put(s, new LinkedList<>());
         this.users.add(new User(s, name, surname));
     }
 
@@ -104,13 +99,13 @@ public class ProductManagerImpl implements ProductManager {
     }
 
     private void executeProcess(Order orderToProcess) {
-        List<LP> elements = orderToProcess.getElements();
+        LinkedList<LP> elements = orderToProcess.getElements();
         for(LP element : elements) {
             Product product = this.getProduct(element.getProduct());
             int index = products.indexOf(product);
             product.sold(element.getQuantity());
             products.set(index, product);
         }
-        this.ordersProcessed.add(orderToProcess);
+        this.usersOrders.get(orderToProcess.getUserId()).add(orderToProcess);
     }
 }
