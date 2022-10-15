@@ -1,9 +1,9 @@
 import Domain.Entity.Order;
 import Domain.Entity.Product;
-import Domain.Exceptions.MaximumOrdersExceededException;
-import Domain.Exceptions.NoOrdersToProcessException;
 import Domain.Repository.ProductManager;
 import Infrastructure.ProductManagerImpl;
+import edu.upc.dsa.queue.EmptyQueueException;
+import edu.upc.dsa.queue.FullQueueException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,7 +16,7 @@ public class ProductManagerImplTest {
     ProductManager pm;
 
     @Before
-    public void setUp() throws MaximumOrdersExceededException {
+    public void setUp() throws FullQueueException {
         pm = new ProductManagerImpl();
         pm.addUser("1111111", "Juan", "lopez");
         pm.addUser("2222222",  "David", "Rincon");
@@ -35,7 +35,7 @@ public class ProductManagerImplTest {
         this.pm = null;
     }
 
-    private void prepareOrders() throws MaximumOrdersExceededException {
+    private void prepareOrders() throws FullQueueException {
         Order o1 = new Order("1111111");
         o1.addLP(3, "B001");
         o1.addLP(2, "C002");
@@ -59,7 +59,7 @@ public class ProductManagerImplTest {
     }
 
     @Test
-    public void testAddOrder() throws MaximumOrdersExceededException {
+    public void testAddOrder() throws FullQueueException {
         Assert.assertEquals(3, this.pm.numUsers());
         Assert.assertEquals(4, this.pm.numProducts());
         Assert.assertEquals(3, this.pm.numOrders());
@@ -74,7 +74,7 @@ public class ProductManagerImplTest {
     }
 
     @Test
-    public void processOrderTest() throws NoOrdersToProcessException {
+    public void processOrderTest() throws EmptyQueueException {
         Assert.assertEquals(3, this.pm.numUsers());
         Assert.assertEquals(4, this.pm.numProducts());
         Assert.assertEquals(3, this.pm.numOrders());
@@ -113,7 +113,7 @@ public class ProductManagerImplTest {
     }
 
     @Test
-    public void productsSortByNumSales() throws NoOrdersToProcessException {
+    public void productsSortByNumSales() throws EmptyQueueException {
         processOrderTest();
 
         List<Product> products = this.pm.productsBySales();
@@ -135,7 +135,7 @@ public class ProductManagerImplTest {
     }
 
     @Test
-    public void ordersByUserTest() throws NoOrdersToProcessException {
+    public void ordersByUserTest() throws EmptyQueueException {
         processOrderTest();
         List<Order> orders1 = this.pm.ordersByUser("1111111");
         Assert.assertEquals(2, orders1.size());

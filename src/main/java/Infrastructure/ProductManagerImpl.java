@@ -3,12 +3,12 @@ package Infrastructure;
 import Domain.Entity.Order;
 import Domain.Entity.Product;
 import Domain.Entity.User;
-import Domain.Exceptions.MaximumOrdersExceededException;
-import Domain.Exceptions.NoOrdersToProcessException;
 import Domain.Entity.VO.LP;
-import Domain.Entity.Comparator.ProductComparatorByPrice;
-import Domain.Entity.Comparator.ProductComparatorBySales;
 import Domain.Repository.ProductManager;
+import edu.upc.dsa.queue.ArrayQueueImplementation;
+import edu.upc.dsa.queue.EmptyQueueException;
+import edu.upc.dsa.queue.FullQueueException;
+import edu.upc.dsa.queue.Queue;
 
 import java.util.*;
 
@@ -16,48 +16,35 @@ public class ProductManagerImpl implements ProductManager {
     List<User> users;
     List<Product> products;
     List<Order> ordersProcessed;
-    Order[] orders;
-    int pointer;
-    int maximum = 100;
+    Queue<Order> orders;
 
     public ProductManagerImpl(){
         this.users = new ArrayList<>();
         this.products = new ArrayList<>();
         this.ordersProcessed = new ArrayList<>();
-        this.orders = new Order[maximum];
-        this.pointer = 0;
+        this.orders = new ArrayQueueImplementation<>(100);
     }
     @Override
     public List<Product> productsByPrice() {
-        this.products.sort(new ProductComparatorByPrice());
+        this.products.sort((Product p1,Product p2)->Double.compare(p1.getPrice(),p2.getPrice()));
         return this.products;
     }
 
     @Override
     public List<Product> productsBySales() {
-        this.products.sort(new ProductComparatorBySales());
+        this.products.sort((Product p1, Product p2)->(p1.getNumSales() - p2.getNumSales()));
         return this.products;
     }
 
     @Override
-    public void addOrder(Order order) throws MaximumOrdersExceededException {
-        if(isFull()){
-            throw new MaximumOrdersExceededException();
-        }
-
-        this.orders[pointer] = order;
-        this.pointer++;
+    public void addOrder(Order order) throws FullQueueException {
+        this.orders.push(order);
     }
 
     @Override
-    public Order processOrder() throws NoOrdersToProcessException {
-        if(isEmpty()){
-            throw new NoOrdersToProcessException();
-        }
-
-        Order orderToProcess = orders[0];
+    public Order processOrder() throws EmptyQueueException {
+        Order orderToProcess = this.orders.pop();
         executeProcess(orderToProcess);
-        rearrangeOrders();
         return orderToProcess;
     }
 
@@ -108,19 +95,12 @@ public class ProductManagerImpl implements ProductManager {
 
     @Override
     public int numOrders() {
-        return this.pointer;
+        return this.orders.size();
     }
 
     @Override
     public int numSales(String b001) {
         return this.getProduct(b001).getNumSales();
-    }
-
-    private void rearrangeOrders() {
-        for (int i=0; i<this.pointer-1;i++) {
-            this.orders[i] = this.orders[i+1];
-        }
-        this.pointer--;
     }
 
     private void executeProcess(Order orderToProcess) {
@@ -132,13 +112,5 @@ public class ProductManagerImpl implements ProductManager {
             products.set(index, product);
         }
         this.ordersProcessed.add(orderToProcess);
-    }
-
-    private boolean isFull() {
-        return (pointer==maximum);
-    }
-
-    private boolean isEmpty() {
-        return (pointer==0);
     }
 }

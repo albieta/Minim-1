@@ -2,16 +2,16 @@ package Domain.Repository;
 
 import Domain.Entity.Order;
 import Domain.Entity.Product;
-import Domain.Exceptions.MaximumOrdersExceededException;
-import Domain.Exceptions.NoOrdersToProcessException;
+import edu.upc.dsa.queue.EmptyQueueException;
+import edu.upc.dsa.queue.FullQueueException;
 
 import java.util.List;
 
 public interface ProductManager {
     public List<Product> productsByPrice();
     public List<Product> productsBySales();
-    public void addOrder(Order order) throws MaximumOrdersExceededException;
-    public Order processOrder() throws NoOrdersToProcessException;
+    public void addOrder(Order order) throws FullQueueException;
+    public Order processOrder() throws EmptyQueueException;
     public List<Order> ordersByUser(String userId);
     /////////////////////////////////////////////
     ////////////////////////////////////////////
