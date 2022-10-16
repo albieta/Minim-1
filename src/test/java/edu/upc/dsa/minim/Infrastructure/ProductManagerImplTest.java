@@ -1,3 +1,5 @@
+package edu.upc.dsa.minim.Infrastructure;
+
 import edu.upc.dsa.minim.Domain.Entity.Order;
 import edu.upc.dsa.minim.Domain.Entity.Product;
 import edu.upc.dsa.minim.Domain.Repository.ProductManager;
@@ -117,21 +119,21 @@ public class ProductManagerImplTest {
         processOrderTest();
 
         List<Product> products = this.pm.productsBySales();
-        Assert.assertEquals("A003", products.get(0).getProductId());
-        Assert.assertEquals("Croissant", products.get(0).getProductName());
-        Assert.assertEquals(0, products.get(0).getNumSales());
+        Assert.assertEquals("B001", products.get(0).getProductId());
+        Assert.assertEquals("Coca cola", products.get(0).getProductName());
+        Assert.assertEquals(7, products.get(0).getNumSales());
 
-        Assert.assertEquals("C002", products.get(1).getProductId());
-        Assert.assertEquals("Café amb gel", products.get(1).getProductName());
-        Assert.assertEquals(2, products.get(1).getNumSales());
+        Assert.assertEquals("A002", products.get(1).getProductId());
+        Assert.assertEquals("Donut", products.get(1).getProductName());
+        Assert.assertEquals(5, products.get(1).getNumSales());
 
-        Assert.assertEquals("A002", products.get(2).getProductId());
-        Assert.assertEquals("Donut", products.get(2).getProductName());
-        Assert.assertEquals(5, products.get(2).getNumSales());
+        Assert.assertEquals("C002", products.get(2).getProductId());
+        Assert.assertEquals("Café amb gel", products.get(2).getProductName());
+        Assert.assertEquals(2, products.get(2).getNumSales());
 
-        Assert.assertEquals("B001", products.get(3).getProductId());
-        Assert.assertEquals("Coca cola", products.get(3).getProductName());
-        Assert.assertEquals(7, products.get(3).getNumSales());
+        Assert.assertEquals("A003", products.get(3).getProductId());
+        Assert.assertEquals("Croissant", products.get(3).getProductName());
+        Assert.assertEquals(0, products.get(3).getNumSales());
     }
 
     @Test
