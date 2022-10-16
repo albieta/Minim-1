@@ -1,7 +1,7 @@
-import Domain.Entity.Order;
-import Domain.Entity.Product;
-import Domain.Repository.ProductManager;
-import Infrastructure.ProductManagerImpl;
+import edu.upc.dsa.minim.Domain.Entity.Order;
+import edu.upc.dsa.minim.Domain.Entity.Product;
+import edu.upc.dsa.minim.Domain.Repository.ProductManager;
+import edu.upc.dsa.minim.Infrastructure.ProductManagerImpl;
 import edu.upc.dsa.queue.EmptyQueueException;
 import edu.upc.dsa.queue.FullQueueException;
 import org.junit.After;
@@ -118,19 +118,19 @@ public class ProductManagerImplTest {
 
         List<Product> products = this.pm.productsBySales();
         Assert.assertEquals("A003", products.get(0).getProductId());
-        Assert.assertEquals("Croissant", products.get(0).getDescription());
+        Assert.assertEquals("Croissant", products.get(0).getProductName());
         Assert.assertEquals(0, products.get(0).getNumSales());
 
         Assert.assertEquals("C002", products.get(1).getProductId());
-        Assert.assertEquals("Café amb gel", products.get(1).getDescription());
+        Assert.assertEquals("Café amb gel", products.get(1).getProductName());
         Assert.assertEquals(2, products.get(1).getNumSales());
 
         Assert.assertEquals("A002", products.get(2).getProductId());
-        Assert.assertEquals("Donut", products.get(2).getDescription());
+        Assert.assertEquals("Donut", products.get(2).getProductName());
         Assert.assertEquals(5, products.get(2).getNumSales());
 
         Assert.assertEquals("B001", products.get(3).getProductId());
-        Assert.assertEquals("Coca cola", products.get(3).getDescription());
+        Assert.assertEquals("Coca cola", products.get(3).getProductName());
         Assert.assertEquals(7, products.get(3).getNumSales());
     }
 
