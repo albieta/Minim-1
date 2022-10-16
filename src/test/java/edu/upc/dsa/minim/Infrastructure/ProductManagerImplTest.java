@@ -3,7 +3,6 @@ package edu.upc.dsa.minim.Infrastructure;
 import edu.upc.dsa.minim.Domain.Entity.Order;
 import edu.upc.dsa.minim.Domain.Entity.Product;
 import edu.upc.dsa.minim.Domain.Repository.ProductManager;
-import edu.upc.dsa.minim.Infrastructure.ProductManagerImpl;
 import edu.upc.dsa.queue.EmptyQueueException;
 import edu.upc.dsa.queue.FullQueueException;
 import org.junit.After;
