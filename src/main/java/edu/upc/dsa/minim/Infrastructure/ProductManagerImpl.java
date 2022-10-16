@@ -46,7 +46,7 @@ public class ProductManagerImpl implements ProductManager {
 
     @Override
     public List<Product> productsBySales() {
-        this.products.sort((Product p1, Product p2)->(p1.getNumSales() - p2.getNumSales()));
+        this.products.sort((Product p2, Product p1)->(p1.getNumSales() - p2.getNumSales()));
         return this.products;
     }
 

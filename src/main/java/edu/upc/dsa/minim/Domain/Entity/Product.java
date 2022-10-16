@@ -8,7 +8,7 @@ public class Product {
     double price;
     int numSales;
 
-    public Product(){this.productId = StubVariableBuilder.randomId();}
+    public Product(){}
 
     public Product(String productId, String productName, double price, int numSales){
         this.productId = productId;

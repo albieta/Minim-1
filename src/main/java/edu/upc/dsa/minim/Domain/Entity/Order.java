@@ -8,6 +8,8 @@ public class Order {
     String userId;
     LinkedList<LP> elements;
 
+    public Order(){}
+
     public Order(String userId){
         this.userId = userId;
         this.elements = new LinkedList<>();
@@ -17,8 +19,15 @@ public class Order {
         return this.elements;
     }
 
+    public void setElements(LinkedList<LP> elements) {
+        this.elements = elements;
+    }
     public String getUserId(){
         return this.userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public void addLP(int i, String b001) {
