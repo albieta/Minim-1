@@ -1,9 +1,14 @@
 package edu.upc.dsa.minim.Domain.Entity;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class User {
     String userId;
     String userName;
     String userSurname;
+
+    List<Order> processedOrders;
 
     public User(){}
 
@@ -11,6 +16,7 @@ public class User {
         this.userId = userId;
         this.userName = userName;
         this.userSurname = userSurname;
+        this.processedOrders = new LinkedList<>();
     }
     public String getUserId() {
         return userId;
@@ -34,5 +40,12 @@ public class User {
 
     public void setUserSurname(String userSurname) {
         this.userSurname = userSurname;
+    }
+
+    public void addProcessedOrder(Order order) {
+        this.processedOrders.add(order);
+    }
+    public List<Order> getProcessedOrders() {
+        return this.processedOrders;
     }
 }

@@ -5,10 +5,6 @@ import edu.upc.dsa.minim.Domain.Entity.Product;
 import edu.upc.dsa.minim.Domain.Entity.User;
 import edu.upc.dsa.minim.Domain.Entity.VO.LP;
 import edu.upc.dsa.minim.Domain.Repository.ProductManager;
-import edu.upc.dsa.queue.ArrayQueueImplementation;
-import edu.upc.dsa.queue.EmptyQueueException;
-import edu.upc.dsa.queue.FullQueueException;
-import edu.upc.dsa.queue.Queue;
 import org.apache.log4j.Logger;
 
 import java.util.*;
@@ -16,7 +12,7 @@ import java.util.*;
 public class ProductManagerImpl implements ProductManager {
     private static ProductManager instance;
     List<Product> products;
-    Map<User, List<Order>> users;
+    Map<String, User> users;
     Queue<Order> orders;
 
     final static Logger logger = Logger.getLogger(ProductManagerImpl.class);
@@ -35,7 +31,7 @@ public class ProductManagerImpl implements ProductManager {
     public ProductManagerImpl(){
         this.products = new ArrayList<>();
         this.users = new HashMap<>();
-        this.orders = new ArrayQueueImplementation<>(100);
+        this.orders = new LinkedList<>();
     }
 
     @Override
@@ -51,30 +47,30 @@ public class ProductManagerImpl implements ProductManager {
     }
 
     @Override
-    public void addOrder(Order order) throws FullQueueException {
-        this.orders.push(order);
+    public void addOrder(Order order) {
+        this.orders.add(order);
     }
 
     @Override
-    public Order processOrder() throws EmptyQueueException {
-        Order order = this.orders.pop();
+    public Order processOrder() {
+        Order order = this.orders.poll();
         executeProcess(order);
         return order;
     }
 
     @Override
     public List<Order> ordersByUser(String userId) {
-        return this.users.get(getUserFromId(userId));
+        return this.users.get(userId).getProcessedOrders();
     }
 
     @Override
     public void addUser(String s, String name, String surname) {
-        this.users.put(new User(s, name, surname), new LinkedList<>());
+        this.users.put(s, new User(s, name, surname));
     }
 
     @Override
     public void addProduct(String productId, String name, double price) {
-        if (!this.getProduct(productId).isNull()){
+        if (!getProduct(productId).isNull()){
             return;
         }
         this.products.add(new Product(productId, name, price, 0));
@@ -118,15 +114,6 @@ public class ProductManagerImpl implements ProductManager {
             product.sold(element.getQuantity());
             products.set(index, product);
         }
-        this.users.get(getUserFromId(order.getUserId())).add(order);
-    }
-
-    private User getUserFromId(String id) {
-        for(User key : this.users.keySet()) {
-            if(Objects.equals(key.getUserId(), id)){
-                return key;
-            }
-        }
-        return null;
+        this.users.get(order.getUserId()).addProcessedOrder(order);
     }
 }

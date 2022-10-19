@@ -5,8 +5,6 @@ import edu.upc.dsa.minim.Domain.Entity.Product;
 import edu.upc.dsa.minim.Domain.Entity.User;
 import edu.upc.dsa.minim.Domain.Repository.ProductManager;
 import edu.upc.dsa.minim.Infrastructure.ProductManagerImpl;
-import edu.upc.dsa.queue.EmptyQueueException;
-import edu.upc.dsa.queue.FullQueueException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -89,7 +87,7 @@ public class ProductService {
     })
     @Path("/order")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addOrder(Order order) throws FullQueueException {
+    public Response addOrder(Order order) {
 
         if (order.getUserId()==null )  return Response.status(500).entity(order).build();
         this.productManager.addOrder(order);
@@ -105,7 +103,7 @@ public class ProductService {
     })
     @Path("/order")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response processOrder() throws EmptyQueueException {
+    public Response processOrder() {
 
         Order order = this.productManager.processOrder();
         return Response.status(201).entity(order).build();
