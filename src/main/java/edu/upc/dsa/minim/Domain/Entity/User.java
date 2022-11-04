@@ -5,7 +5,9 @@ import java.util.List;
 
 public class User {
     String userId;
+
     String userName;
+
     String userSurname;
 
     List<Order> processedOrders;
@@ -45,6 +47,7 @@ public class User {
     public void addProcessedOrder(Order order) {
         this.processedOrders.add(order);
     }
+
     public List<Order> getProcessedOrders() {
         return this.processedOrders;
     }
