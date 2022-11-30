@@ -51,4 +51,8 @@ public class User {
     public List<Order> getProcessedOrders() {
         return this.processedOrders;
     }
+
+    public void setProcessedOrders(List<Order> processedOrders) {
+        this.processedOrders = processedOrders;
+    }
 }
